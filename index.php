@@ -153,7 +153,7 @@ $bdd = null;
    
 
     <footer class="bg-light p-3">
-        <p class="text-center">Horaires d'ouverture : Lundi - Vendredi : 9h00 - 18h00 | Samedi : 9h00 - 12h00</p>
+        <p class="text-center"><p>Garage V. Parrot est votre partenaire de confiance pour l'entretien, la réparation, et la vente de véhicules d'occasion à Toulouse.</p></p>
     </footer>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

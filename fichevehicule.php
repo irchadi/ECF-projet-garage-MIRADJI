@@ -146,6 +146,9 @@ Je suis intéressé(e) par le véhicule <?= htmlspecialchars($vehicule['marque']
         </div>
     </div>
 </main>
+<footer class="bg-light p-3">
+        <p class="text-center"><p>Garage V. Parrot est votre partenaire de confiance pour l'entretien, la réparation, et la vente de véhicules d'occasion à Toulouse.</p></p>
+    </footer>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
