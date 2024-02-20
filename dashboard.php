@@ -62,9 +62,9 @@ $nom_utilisateur = $_SESSION['user_nom'];
         <!-- Contenu de votre tableau de bord -->
     </main>
 
-    <footer>
-        <!-- Pied de page de votre page -->
-    </footer>
+    <footer class="bg-light p-3 fixed">
+    <p class="text-center">Garage V. Parrot est votre partenaire de confiance pour l'entretien, la réparation, et la vente de véhicules d'occasion à Toulouse.</p>
+</footer>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>

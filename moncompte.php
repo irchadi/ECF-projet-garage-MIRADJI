@@ -104,6 +104,8 @@ if (isset($_POST['supprimer_service'])) {
     file_put_contents('services.json', json_encode($services, JSON_PRETTY_PRINT));
 }
 
+// Recharger les services après modification
+$services = json_decode(file_get_contents('services.json'), true);
 ?>
 
 <!DOCTYPE html>
@@ -246,22 +248,7 @@ if (isset($_POST['supprimer_service'])) {
         <button type="submit" class="btn btn-primary">Ajouter</button>
     </form>
 </div>
-<h2>Gérer les services</h2>
-<form action="moncompte.php" method="post">
-    <label for="nouveau_service">Ajouter un nouveau service :</label>
-    <input type="text" id="nouveau_service" name="nouveau_service" required>
-    <button type="submit" name="ajouter_service">Ajouter</button>
-</form>
-<form action="moncompte.php" method="post">
-    <?php foreach ($services as $index => $service): ?>
-        <div>
-            <?php echo htmlspecialchars($service); ?>
-            <!-- Bouton de suppression pour chaque service -->
-            <button type="submit" name="supprimer_service">Supprimer</button>
-            <input type="hidden" name="index" value="<?php echo $index; ?>">
-        </div>
-    <?php endforeach; ?>
-</form>
+
 
 <div class="container">
     <h2>Contacts</h2>
