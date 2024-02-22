@@ -69,40 +69,26 @@ if (isset($_POST['ajouter_service'])) {
     }
 }
 
-// Chargement des services existants
-$services = json_decode(file_get_contents('services.json'), true);
-
-// Traitement de la suppression d'un service
-if (isset($_POST['supprimer_service'])) {
-    $indexASupprimer = $_POST['index'];
-    if (isset($services[$indexASupprimer])) {
-        unset($services[$indexASupprimer]); // Supprime le service
-        $services = array_values($services); // Réindexe l'array
-        file_put_contents('services.json', json_encode($services, JSON_PRETTY_PRINT)); // Sauvegarde la nouvelle liste
-        echo "Service supprimé avec succès.";
-    }
-}
-// Chargement des services
-$services = json_decode(file_get_contents('services.json'), true);
-
-// Ajouter un nouveau service
-if (isset($_POST['ajouter_service']) && !empty($_POST['nouveau_service'])) {
-    $nouveauService = [
-        "id" => count($services) + 1, // Attribution d'un nouvel ID
-        "nom" => $_POST['nouveau_service'],
-        "description" => $_POST['description_service'] // Assurez-vous d'ajouter un champ pour la description dans le formulaire
-    ];
-    $services[] = $nouveauService;
-    file_put_contents('services.json', json_encode($services, JSON_PRETTY_PRINT));
-    // Optionnel : Générer une page pour le service
+// Traitement de la suppression
+if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['id'])) {
+    $id = $_GET['id'];
+    $requete = $bdd->prepare("DELETE FROM services WHERE id = ?");
+    $requete->execute([$id]);
+    echo "<p>Service supprimé avec succès.</p>";
 }
 
-// Supprimer un service
-if (isset($_POST['supprimer_service'])) {
-    $indexASupprimer = $_POST['index'];
-    array_splice($services, $indexASupprimer, 1); // Supprime le service de l'array
-    file_put_contents('services.json', json_encode($services, JSON_PRETTY_PRINT));
+// Traitement de l'ajout
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $nom = $_POST['nom'];
+    $description = $_POST['description'];
+    // Ajoutez ici le traitement de l'image si nécessaire
+    $requete = $bdd->prepare("INSERT INTO services (nom, description) VALUES (?, ?)");
+    $requete->execute([$nom, $description]);
+    echo "<p>Service ajouté avec succès.</p>";
 }
+
+// Récupération de tous les services
+$services = $bdd->query('SELECT * FROM services');
 
 // Recharger les services après modification
 $services = json_decode(file_get_contents('services.json'), true);
@@ -248,8 +234,46 @@ $services = json_decode(file_get_contents('services.json'), true);
         <button type="submit" class="btn btn-primary">Ajouter</button>
     </form>
 </div>
+<div class="container">
+    <h2>Ajouter un nouveau service</h2>
+    <form action="moncompte.php" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="nom">Nom du service:</label>
+            <input type="text" class="form-control" id="nom" name="nom" required>
+        </div>
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <textarea class="form-control" id="description" name="description" required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="image">Image:</label>
+            <input type="file" class="form-control-file" id="image" name="image">
+        </div>
+        <button type="submit" name="ajouter" class="btn btn-primary">Ajouter</button>
+    </form>
 
-
+    <h3>Liste des services</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($services as $service): ?>
+            <tr>
+                <td><?= htmlspecialchars($service['nom']) ?></td>
+                <td><?= htmlspecialchars($service['description']) ?></td>
+                <td>
+                    <a href="moncompte.php?action=delete&id=<?= $service['id'] ?>" onclick="return confirm('Confirmez-vous la suppression de ce service ?');">Supprimer</a>
+                </td>
+            </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>
 <div class="container">
     <h2>Contacts</h2>
     <table class="table">

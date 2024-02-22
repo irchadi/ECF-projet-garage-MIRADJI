@@ -6,7 +6,11 @@ require_once('connectdb.php');
 $horaires = json_decode(file_get_contents('horaires.json'), true);
 $services = json_decode(file_get_contents('services.json'), true);
 
+// Récupération du slug depuis l'URL
+$slug = isset($_GET['slug']) ? $_GET['slug'] : '';
 
+// Requête pour obtenir tous les services
+$requete = $bdd->query('SELECT * FROM services');
 ?>
 
 <!DOCTYPE html>
@@ -46,16 +50,16 @@ $services = json_decode(file_get_contents('services.json'), true);
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Nos services
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="#">Réparation</a>
-                            <a class="dropdown-item" href="#">Contrôle technique</a>
-                            <a class="dropdown-item" href="#">Entretien</a>
-                        </div>
-                    </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Nos services
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <?php while ($service = $requete->fetch()): ?>
+                        <a class="dropdown-item" href="service-detail.php?slug=<?= htmlspecialchars($service['slug']) ?>"><?= htmlspecialchars($service['nom']) ?></a>
+                    <?php endwhile; ?>
+                </div>
+            </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Vehicules en vente

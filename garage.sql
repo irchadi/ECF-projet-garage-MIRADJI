@@ -124,8 +124,16 @@ UPDATE `vehicules_occasion` SET `image_principale` = 'assets\\img\\FC921QK-1.jpg
 DELETE FROM vehicules_occasion
 WHERE id >= 10 AND id <= 18;
 
+CREATE TABLE services (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nom VARCHAR(255) NOT NULL,
+    description TEXT,
+    image VARCHAR(255),
+    slug VARCHAR(255) UNIQUE NOT NULL
+);
 
-
+INSERT INTO services (nom, description, image, slug) VALUES
+('Réparation', 'La réparation automobile est notre domaine de prédilection. nous prenons en charge tous les modèles (citadine, 4×4, utilitaires, etc.) d’autres marques de voitures (Dacia, Renault, Peugeot, Mazda, etc.)', 'assets\img\igkug.png', 'reparation');
 
 
 
